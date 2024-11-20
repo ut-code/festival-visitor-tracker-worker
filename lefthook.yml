@@ -1,0 +1,13 @@
+# Lefthook: Precommit Hook
+# docs: https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+# 必須: Lefthook
+# 必須: `lefthook install`
+# 関連: Husky (互換: Lefthook のほうが多機能)
+pre-commit:
+  parallel: true
+  commands:
+    biome:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      # このコードベースではフォーマッタに Prettier を採用しているので `biome lint` しかしていないが、 Biome で format もするなら `biome check` をしてよい。 (biome check = biome lint + biome format)
+      run: bunx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true -- {staged_files}
+      stage_fixed: true
