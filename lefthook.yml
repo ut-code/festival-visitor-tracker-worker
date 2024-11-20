@@ -9,3 +9,7 @@ pre-commit:
       glob: "*"
       run: bunx prettier --write -- {staged_files}
       stage_fixed: true
+    generate:
+      glob: "**/wrangler.toml"
+      run: cd view && bun generate && cd ../worker && bun generate
+      stage_fixed: true
