@@ -3,7 +3,7 @@ pre-commit:
   commands:
     biome:
       glob: "*"
-      run: bunx @biomejs/biome lint --write -- {staged_files}
+      run: bunx @biomejs/biome lint --write --no-errors-on-unmatched --files-ignore-unknown=true -- {staged_files}
       stage_fixed: true
     prettier:
       glob: "*"
