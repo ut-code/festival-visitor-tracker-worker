@@ -29,6 +29,7 @@
           cargo-generate
           worker-build
           wasm-pack
+          wrangler
         ];
       };
     });
