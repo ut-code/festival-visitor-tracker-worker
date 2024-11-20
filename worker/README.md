@@ -15,6 +15,7 @@ bun run deploy
 ## How to use
 
 create a POST request with body:
+
 ```json
 {
   "url": "https://sample.festival.utcode.net",
