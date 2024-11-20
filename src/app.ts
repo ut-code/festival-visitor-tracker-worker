@@ -8,11 +8,27 @@ const Body = v.object({
 	key: v.string(),
 });
 
+const resForHuman = `
+<center>
+	<p>
+		Hello from Cloudflare Worker!
+	</p>
+	<p>
+		please refer to README at 
+		<a href="https://github.com/ut-code/festival-visitor-tracker-worker">
+			GitHub
+		</a>
+		for how to use.
+	</p>
+</center>`;
+
 const bareapp = {
 	async fetch(req: Request, env: Env, _ctx: unknown): Promise<Response> {
-		if (req.method !== "POST")
-			return new Response(`Hello from worker!
-			please refer to README at https://github.com/ut-code/festival-visitor-tracker-worker for how to use.`);
+		if (req.method !== "POST") {
+			const res = new Response(resForHuman);
+			res.headers.append("Content-Type", "text/html");
+			return res;
+		}
 		const body = v.parse(Body, await req.json());
 		if (
 			body.key !==
