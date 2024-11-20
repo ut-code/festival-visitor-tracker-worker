@@ -1,10 +1,13 @@
 <script lang="ts">
-	type Data = string;
-	type Props = {
-		data: Data;
-	};
-	const { data } = $props();
+	import type { PageData } from './$types';
+	type Props = { data: PageData };
+	const { data }: Props = $props();
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+{#await data.visits}
+	Loading...
+{:then data}
+	data: {JSON.stringify(data)}
+{:catch err}
+	error: {err}
+{/await}
