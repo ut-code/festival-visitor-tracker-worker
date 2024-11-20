@@ -23,6 +23,7 @@
         src = ./.;
         buildInputs = with pkgs; [
           bun
+          nodejs
         ];
       };
     });

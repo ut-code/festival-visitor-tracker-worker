@@ -6,10 +6,18 @@ To install dependencies:
 bun install
 ```
 
-To run:
+To deploy:
 
 ```bash
-bun run fetch.ts
+bun run deploy
 ```
 
-This project was created using `bun init` in bun v1.1.31. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## How to use
+
+create a POST request with body:
+```json
+{
+  "url": "https://sample.festival.utcode.net",
+  "key": "2e0c7cad39e09314a46f217c6107f96e08bd13984cd4ae4c29d96f5db440dba8"
+}
+```
