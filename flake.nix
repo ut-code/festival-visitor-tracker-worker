@@ -20,23 +20,13 @@
       toolchain = import ./toolchain.nix { inherit system fenix; };
     in
     {
-      # パッケージの設定
-      # <template optional />
-      # `nix build` を実行すると /nix/store に pkgs.hello の artifact が生成され、`nix run` を実行すると stdout に `Hello world!` が出力されるはずです。
-      packages.default = pkgs.hello;
-      # More examples: 
-      # - simple stdenv.mkDerivation: https://qiita.com/hnakano863/items/4abfa4475ddc4c8684b1
-      # - rustPlatform.buildRustPackage: https://zenn.dev/asa1984/books/nix-hands-on/viewer/ch04-02-rust-project
-      # - buildGoModule: https://nixos.org/manual/nixpkgs/stable/#sec-language-go
-      # - node2nix: https://zenn.dev/pandaman64/articles/zenn-built-with-nix
-
-      # 開発シェルの設定
       devShell = pkgs.mkShell {
         name = "Template Development Shell"; # devShell の名前
         buildInputs = with pkgs; [
           # <template repeat desc="開発中に使うパッケージ" example="biome" />
           bun
           toolchain
+          cargo-generate
         ];
       };
     });
