@@ -27,6 +27,8 @@
           bun
           toolchain
           cargo-generate
+          worker-build
+          wasm-pack
         ];
       };
     });
