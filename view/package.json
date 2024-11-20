@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "generate": "bunx cf-typegen ",
-    "prepare": "lefthook install && bun generate",
+    "generate": "bun run cf-typegen ",
+    "prepare": "bunx lefthook install && bun generate",
     "preview": "bun run build && wrangler pages dev",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "db:push": "drizzle-kit push",
