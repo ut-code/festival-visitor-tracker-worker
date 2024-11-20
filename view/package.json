@@ -41,6 +41,7 @@
 	"dependencies": {
 		"@libsql/client": "^0.9.0",
 		"daisyui": "^4.12.14",
-		"drizzle-orm": "^0.33.0"
+		"drizzle-orm": "^0.33.0",
+		"share": "file:../share"
 	}
 }
