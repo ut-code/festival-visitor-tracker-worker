@@ -39,5 +39,6 @@
 			data: entry.val
 		}))
 	}}
+	height="600px"
 	options={{}}
 />
