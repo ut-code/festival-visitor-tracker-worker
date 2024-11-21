@@ -1,13 +1,8 @@
-import { drizzle } from 'drizzle-orm/d1';
-import { visitsTable } from '../schema';
+import type { Visit } from '~/db/schema';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = ({ platform }) => {
+export const load: PageServerLoad = ({ fetch }) => {
 	return {
-		visits: (async () => {
-			if (!platform) return [];
-			const db = drizzle(platform.env.DB);
-			return await db.select().from(visitsTable).all();
-		})()
+		visits: fetch('/visits').then((res) => res.json() as Promise<Visit[]>)
 	};
 };

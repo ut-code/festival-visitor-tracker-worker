@@ -3,7 +3,7 @@ import { unwrap } from './src/lib/utils';
 
 export default defineConfig({
 	out: './drizzle',
-	schema: './src/schema.ts',
+	schema: './src/db/schema.ts',
 	dialect: 'sqlite',
 	driver: 'd1-http',
 	dbCredentials: {
