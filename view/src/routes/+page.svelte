@@ -7,8 +7,8 @@
 	const { data }: Props = $props();
 	let visits = $state(data.visits);
 
-	const kind: Kind | 'all' = $state('all');
-	const duration: number = $state(3);
+	let kind: Kind | 'all' = $state('all');
+	let duration: number = $state(3);
 	let lastFetch: Date = $state(new Date());
 	$effect(() => {
 		visits = fetch(`/visits?kind=${kind}&duration=${duration}`)
