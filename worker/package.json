@@ -8,7 +8,8 @@
     "start": "wrangler dev",
     "generate": "bun cf-typegen",
     "cf-typegen": "wrangler types",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "check": "bun generate && bunx tsc"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
@@ -24,7 +25,6 @@
   },
   "dependencies": {
     "drizzle-orm": "^0.36.3",
-    "valibot": "^1.0.0-beta.7",
-    "share": "file:../share"
+    "valibot": "^1.0.0-beta.7"
   }
 }

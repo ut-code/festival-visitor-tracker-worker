@@ -1,5 +1,5 @@
 import { defineConfig } from "drizzle-kit";
-import { unwrap } from "share/lib/utils";
+import { unwrap } from "./src/lib/utils";
 
 export default defineConfig({
   out: "./drizzle",

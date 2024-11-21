@@ -11,7 +11,9 @@
     "prettier-plugin-tailwindcss": "^0.6.9"
   },
   "scripts": {
-    "prepare": "cd worker; bun i --frozen-lockfile && cd ../view && bun i --frozen-lockfile"
+    "prepare": "cd worker; bun i --frozen-lockfile && cd ../view && bun i --frozen-lockfile",
+    "generate": "# todo",
+    "check": "cd view && bun check && cd ../worker && bun check"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
