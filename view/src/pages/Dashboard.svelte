@@ -40,5 +40,6 @@
 		}))
 	}}
 	height="600px"
+	class="h-[600px]"
 	options={{}}
 />
