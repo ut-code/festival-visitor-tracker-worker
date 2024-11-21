@@ -1,3 +1,4 @@
+import type { InferSelectModel } from 'drizzle-orm';
 import { int, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const visitsTable = sqliteTable('visits', {
@@ -5,3 +6,5 @@ export const visitsTable = sqliteTable('visits', {
 	url: text('url').notNull(),
 	at: integer('at', { mode: 'timestamp' }).notNull()
 });
+
+export type Visit = InferSelectModel<typeof visitsTable>;
