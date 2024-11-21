@@ -1,8 +1,8 @@
 <script lang="ts">
+	import * as v from 'valibot';
 	import Dashboard from '~/pages/Dashboard.svelte';
 	import type { PageData } from './$types';
-	import type { Kind } from '~/share/schema';
-	import type { Visit } from '~/db/schema';
+	import { visit, type Kind } from '~/share/schema';
 	type Props = { data: PageData };
 	const { data }: Props = $props();
 	let visits = $state(data.visits);
@@ -12,7 +12,15 @@
 	let lastFetch: Date = $state(new Date());
 	$effect(() => {
 		visits = fetch(`/visits?kind=${kind}&duration=${duration}`)
-			.then((res) => res.json() as Promise<Visit[]>)
+			.then((res) => res.json())
+			.then((val) => {
+				const parsed = v.safeParse(v.array(visit), val);
+				if (!parsed.success) {
+					console.error(val, parsed.issues);
+					throw new Error();
+				}
+				return parsed.output;
+			})
 			.then((val) => {
 				lastFetch = new Date();
 				return val;

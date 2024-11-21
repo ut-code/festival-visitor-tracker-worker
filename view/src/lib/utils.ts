@@ -27,7 +27,7 @@ export function groupBy<T, U>(list: T[], groupFn: (t: T) => U): { key: U; val: T
 const MILLIS_IN_HOUR = 60 * 60 * 1000;
 export function groupByHour(start: Date, list: Visit[]): number[] {
 	const startTime = start.getTime();
-	const values = list.map((i) => i.at.getTime() - startTime).toSorted((a, b) => a - b);
+	const values = list.map((i) => i.at.getTime() - startTime).sort((a, b) => a - b);
 	const length = Math.ceil((start.getTime() - (values.at(-1) ?? start.getTime())) / MILLIS_IN_HOUR);
 	const ret: number[] = new Array(length).fill(0);
 	for (const datapoint of values) {
