@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: "Check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun check
+
+  # ここでは Biome を使っている。 https://biomejs.dev/ja/recipes/continuous-integration/
+  # Eslint も調べたら出てくるはず。
+  lint-with-biome:
+    name: "Lint with Biome"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: biomejs/setup-biome@v2
+      - run: biome lint
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bunx prettier . --check

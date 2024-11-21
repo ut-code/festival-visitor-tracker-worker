@@ -3,12 +3,12 @@
   "module": "fetch.ts",
   "type": "module",
   "scripts": {
+    "prepare": "bun generate",
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "generate": "bun cf-typegen",
     "cf-typegen": "wrangler types",
-    "prepare": "lefthook install",
     "check": "bun generate && bunx tsc"
   },
   "devDependencies": {
@@ -17,7 +17,6 @@
     "@types/node": "20.8.3",
     "@types/service-worker-mock": "^2.0.1",
     "drizzle-kit": "^0.28.1",
-    "lefthook": "^1.8.4",
     "wrangler": "^3.60.3"
   },
   "peerDependencies": {

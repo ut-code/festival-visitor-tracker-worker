@@ -11,7 +11,7 @@
     "prettier-plugin-tailwindcss": "^0.6.9"
   },
   "scripts": {
-    "prepare": "cd worker; bun i --frozen-lockfile && cd ../view && bun i --frozen-lockfile",
+    "prepare": "bunx lefthook install && cd worker; bun i --frozen-lockfile && cd ../view && bun i --frozen-lockfile",
     "generate": "cd view && bun generate && cd ../worker && bun generate",
     "check": "cd view && bun check && cd ../worker && bun check"
   },
