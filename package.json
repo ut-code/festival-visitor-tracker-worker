@@ -12,7 +12,7 @@
   },
   "scripts": {
     "prepare": "cd worker; bun i --frozen-lockfile && cd ../view && bun i --frozen-lockfile",
-    "generate": "# todo",
+    "generate": "cd view && bun generate && cd ../worker && bun generate",
     "check": "cd view && bun check && cd ../worker && bun check"
   },
   "peerDependencies": {
