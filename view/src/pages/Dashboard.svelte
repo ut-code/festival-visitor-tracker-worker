@@ -13,10 +13,11 @@
 	};
 	const { data, duration, lastFetch }: Props = $props();
 	const grouped = $derived(groupBy(data, (item) => item.url));
+	const titles = $derived(groupByHour(lastFetch, grouped[0].val).map((v) => v[1]));
 	const linedata = $derived(
 		grouped.map((e) => ({
-			key: e.key,
-			val: groupByHour(lastFetch, e.val)
+			name: URL_LABELS.get(e.key) ?? e.key,
+			data: groupByHour(lastFetch, e.val).map((row) => row[0])
 		}))
 	);
 
@@ -30,16 +31,6 @@
 	]);
 </script>
 
-<TotalVisits total={data.length} perDay={data.length / duration} />
+<Line dataset={linedata} {titles} />
 
-<Line
-	data={{
-		datasets: linedata.map((entry) => ({
-			label: URL_LABELS.get(entry.key) ?? entry.key,
-			data: entry.val
-		}))
-	}}
-	height="600px"
-	class="h-[600px]"
-	options={{}}
-/>
+<TotalVisits total={data.length} perDay={data.length / duration} />
