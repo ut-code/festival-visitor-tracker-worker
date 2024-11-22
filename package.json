@@ -13,7 +13,8 @@
   "scripts": {
     "prepare": "bunx lefthook install",
     "generate": "cd view && bun generate && cd ../worker && bun generate",
-    "check": "cd view && bun check && cd ../worker && bun check"
+    "check": "cd view && bun check && cd ../worker && bun check",
+    "install:rec": "bun install --frozen-lockfile && cd view && bun install --frozen-lockfile && cd ../worker && bun install --frozen-lockfile"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
