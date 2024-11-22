@@ -3,7 +3,9 @@
 
 	type Props = { dataset: { name: string; data: number[] }[]; titles: Date[] };
 	const { dataset, titles }: Props = $props();
-	$inspect(titles);
+	onMount(() => {
+		console.log(titles);
+	});
 	const options = {
 		series: dataset,
 		chart: {
@@ -18,7 +20,7 @@
 		},
 		xaxis: {
 			type: 'datetime',
-			categories: titles.map((title) => title.toLocaleDateString())
+			categories: titles.map((title) => title.toISOString())
 		},
 		tooltip: {
 			x: {
@@ -26,7 +28,6 @@
 			}
 		}
 	};
-	const id = Math.random().toFixed(6).toString();
 	onMount(async () => {
 		const { default: ApexCharts } = await import('apexcharts');
 		const chart = new ApexCharts(document.querySelector('#chart-line'), options);
