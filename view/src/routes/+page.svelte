@@ -30,7 +30,7 @@
 </script>
 
 <header>
-	<select name="duration" bind:value={duration} class="select w-full max-w-sm">
+	<select name="duration" bind:value={duration} class="select select-bordered w-full max-w-sm">
 		<option value={3 * HOUR}>3 hours</option>
 		<option value={6 * HOUR}>6 hours</option>
 		<option value={12 * HOUR}>12 hours</option>
@@ -38,7 +38,7 @@
 		<option value={3 * DAY}>3 days</option>
 		<option value={6 * DAY}>6 days</option>
 	</select>
-	<select name="kind" bind:value={kind} class="select w-full max-w-sm">
+	<select name="kind" bind:value={kind} class="select select-bordered w-full max-w-sm">
 		<option value="all">All</option>
 		<option value="festival">Festival</option>
 	</select>
