@@ -5,6 +5,7 @@
 	const { dataset, titles }: Props = $props();
 	onMount(() => {
 		console.log(titles);
+		console.log(dataset);
 	});
 	const options = {
 		series: dataset,
