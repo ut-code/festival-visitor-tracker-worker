@@ -15,7 +15,7 @@
 		['security.utcode.net', 'セキュリティ']
 	]);
 
-	const SAMPLING_COUNT = 20;
+	const SAMPLING_COUNT = 5;
 
 	type Props = {
 		data: Visit[];
@@ -55,6 +55,7 @@
 			(v) => new Date(v + start.getTime())
 		)
 	);
+	console.log(title);
 	const linedata = $derived(
 		grouped.map((e) => ({
 			name: URL_LABELS.get(e.key) ?? e.key,
