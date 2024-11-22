@@ -3,7 +3,10 @@
 
 	type Props = { dataset: { name: string; data: number[] }[]; titles: Date[] };
 	const { dataset, titles }: Props = $props();
-	$inspect(titles);
+	onMount(() => {
+		console.log(titles);
+		console.log(dataset);
+	});
 	const options = {
 		series: dataset,
 		chart: {
@@ -18,15 +21,17 @@
 		},
 		xaxis: {
 			type: 'datetime',
-			categories: titles.map((title) => title.toLocaleDateString())
+			// it's written in UTC time for some reason. converting to JST.
+			categories: titles.map((title) =>
+				new Date(title.getTime() + 9 * 60 * 60 * 1000).toISOString()
+			)
 		},
 		tooltip: {
 			x: {
-				format: 'dd/MM/yy HH:mm'
+				format: 'MM/dd HH:mm'
 			}
 		}
 	};
-	const id = Math.random().toFixed(6).toString();
 	onMount(async () => {
 		const { default: ApexCharts } = await import('apexcharts');
 		const chart = new ApexCharts(document.querySelector('#chart-line'), options);

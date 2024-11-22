@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { HOUR, DAY } from '~/lib/consts';
 	import * as v from 'valibot';
 	import Dashboard from '~/pages/Dashboard.svelte';
 	import { type Kind, visit } from '~/share/schema';
@@ -8,7 +9,7 @@
 	let visits = $state(data.visits);
 
 	let kind: Kind | 'all' = $state('all');
-	let duration: number = $state(3);
+	let duration: number = $state(3 * HOUR);
 	let lastFetch: Date = $state(new Date());
 	$effect(() => {
 		visits = fetch(`/visits?kind=${kind}&duration=${duration}`)
@@ -30,11 +31,12 @@
 
 <header>
 	<select name="duration" bind:value={duration} class="select w-full max-w-sm">
-		<option value={1}>1 days</option>
-		<option value={3}>3 days</option>
-		<option value={5}>5 days</option>
-		<option value={90}>3 Months</option>
-		<option value={370}>1 Year</option>
+		<option value={3 * HOUR}>3 hours</option>
+		<option value={6 * HOUR}>6 hours</option>
+		<option value={12 * HOUR}>12 hours</option>
+		<option value={1 * DAY}>1 days</option>
+		<option value={3 * DAY}>3 days</option>
+		<option value={6 * DAY}>6 days</option>
 	</select>
 	<select name="kind" bind:value={kind} class="select w-full max-w-sm">
 		<option value="all">All</option>

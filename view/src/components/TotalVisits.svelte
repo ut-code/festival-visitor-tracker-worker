@@ -1,5 +1,8 @@
 <script lang="ts">
-	const { total, perDay }: { total: number; perDay: number } = $props();
+	const { total, duration }: { total: number; duration: number } = $props();
+	import { HOUR, DAY } from '$lib/consts';
+	const perHour = $derived(total / (duration / HOUR));
+	const perDay = $derived(total / (duration / DAY));
 </script>
 
 <div class="card card-compact inline-block w-96 bg-base-100 align-top shadow-xl">
@@ -8,7 +11,7 @@
 		<span class="text-xl">{total}</span>
 		<hr />
 		<span class="text-xl">
-			{perDay.toFixed(1)} / day
+			{perHour.toFixed(1)} / Hour, {perDay.toFixed(1)} / Day
 		</span>
 	</div>
 </div>

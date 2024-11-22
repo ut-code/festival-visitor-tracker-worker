@@ -8,6 +8,13 @@ export function unwrap<T>(val: T | null | undefined): T {
 export function panic(message: string): never {
 	throw new Error(message);
 }
+export function stairs(len: number, top: number): number[] {
+	const ret: number[] = [];
+	for (let i = 0; i < len; i++) {
+		ret.push((top / len) * i);
+	}
+	return ret;
+}
 
 export function groupBy<T, U>(list: T[], groupFn: (t: T) => U): { key: U; val: T[] }[] {
 	const map = new Map<U, T[]>();
@@ -25,34 +32,19 @@ export function groupBy<T, U>(list: T[], groupFn: (t: T) => U): { key: U; val: T
 	return ret;
 }
 
-export function groupSteps(
-	current: Date,
-	list: Visit[],
-	start: Date,
-	steps: number
-): [number, Date][] {
+export function groupByTime(current: Date, start: Date, list: Date[], steps: number): number[] {
 	const currentTime = current.getTime();
 	const totalDuration = currentTime - start.getTime();
 	const stepWidth = totalDuration / steps;
-	const values = list.map((i) => currentTime - i.at.getTime()); // all should be pos
-	const result: [number, Date][] = groupInSteps(values, stepWidth).map(
-		(count, index) => [count, new Date(currentTime - index * stepWidth)] as const
-	);
-	return result;
+	const values = list.map((i) => currentTime - i.getTime()); // all should be pos
+	const result: number[] = groupInSteps(values, totalDuration, steps);
+	return result.reverse();
 }
 
-export function stairs(len: number, top: number): number[] {
-	const ret: number[] = [];
-	for (let i = 0; i < len; i++) {
-		ret.push((top / len) * i);
-	}
-	return ret;
-}
-function groupInSteps(list: number[], stepWidth: number): number[] {
-	const maxVal = list.reduce((a, b) => Math.max(a, b));
-	const steps = Math.ceil(maxVal / stepWidth);
-	const arr: number[] = new Array(steps + 1).fill(0);
-	for (const datapoint of list) {
+export function groupInSteps(input: number[], maxVal: number, length: number): number[] {
+	const stepWidth = Math.ceil(maxVal / length);
+	const arr: number[] = new Array(length).fill(0);
+	for (const datapoint of input) {
 		const idx = Math.floor(datapoint / stepWidth);
 		const val = arr[idx];
 		if (val === undefined)

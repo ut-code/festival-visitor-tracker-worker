@@ -3,7 +3,6 @@
   "module": "fetch.ts",
   "type": "module",
   "scripts": {
-    "prepare": "bun generate",
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "start": "wrangler dev",
