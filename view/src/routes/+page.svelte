@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { HOUR, DAY } from '~/lib/consts';
 	import * as v from 'valibot';
 	import Dashboard from '~/pages/Dashboard.svelte';
 	import { type Kind, visit } from '~/share/schema';
@@ -6,9 +7,6 @@
 	type Props = { data: PageData };
 	const { data }: Props = $props();
 	let visits = $state(data.visits);
-
-	const DAY = 24 * 60 * 60 * 1000;
-	const HOUR = 60 * 60 * 1000;
 
 	let kind: Kind | 'all' = $state('all');
 	let duration: number = $state(3 * HOUR);

@@ -1,9 +1,8 @@
 <script lang="ts">
 	const { total, duration }: { total: number; duration: number } = $props();
-	const MS_PER_HOUR = 60 * 60 * 1000;
-	const MS_PER_DAY = 24 * 60 * 60 * 1000;
-	const perHour = $derived(total / (duration / MS_PER_HOUR));
-	const perDay = $derived(total / (duration / MS_PER_DAY));
+	import { HOUR, DAY } from '$lib/consts';
+	const perHour = $derived(total / (duration / HOUR));
+	const perDay = $derived(total / (duration / DAY));
 </script>
 
 <div class="card card-compact inline-block w-96 bg-base-100 align-top shadow-xl">

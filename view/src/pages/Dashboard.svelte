@@ -3,6 +3,7 @@
 	import Line from '~/components/charts/Line.svelte';
 	import PieChart from '~/components/charts/PieChart.svelte';
 	import type { Visit } from '~/db/schema';
+	import { HOUR } from '~/lib/consts';
 	import { groupBy, groupByTime, stairs } from '~/lib/utils';
 	import type { Kind } from '~/share/schema';
 
@@ -15,8 +16,6 @@
 		['security.utcode.net', 'セキュリティ']
 	]);
 
-	const SAMPLING_COUNT = 20;
-
 	type Props = {
 		data: Visit[];
 		duration: number;
@@ -24,6 +23,8 @@
 		kind: Kind | 'all';
 	};
 	const { data, duration, lastFetch }: Props = $props();
+
+	const SAMPLING_COUNT = $derived(Math.min(duration / HOUR, 20)); // limit sampling count to 20 if it's too big
 	const start = $derived(new Date(lastFetch.getTime() - duration));
 	const sanitizedData = $derived(
 		data.map((item) => {
