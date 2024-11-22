@@ -23,8 +23,11 @@
 		kind: Kind | 'all';
 	};
 	const { data, duration, lastFetch }: Props = $props();
+	function clamp(target: number, min: number, max: number) {
+		return Math.min(Math.max(target, min), max);
+	}
 
-	const SAMPLING_COUNT = $derived(Math.min(duration / HOUR, 20)); // limit sampling count to 20 if it's too big
+	const SAMPLING_COUNT = $derived(clamp(duration / HOUR, 6, 20)); // limit sampling count to 20 if it's too big
 	const start = $derived(new Date(lastFetch.getTime() - duration));
 	const sanitizedData = $derived(
 		data.map((item) => {
