@@ -32,24 +32,16 @@ export function groupBy<T, U>(list: T[], groupFn: (t: T) => U): { key: U; val: T
 	return ret;
 }
 
-export function groupSteps(
-	current: Date,
-	start: Date,
-	list: Visit[],
-	steps: number
-): [number, Date][] {
+export function groupByTime(current: Date, start: Date, list: Date[], steps: number): number[] {
 	const currentTime = current.getTime();
 	const totalDuration = currentTime - start.getTime();
 	const stepWidth = totalDuration / steps;
-	const values = list.map((i) => currentTime - i.at.getTime()); // all should be pos
-	const result: [number, Date][] = groupInSteps(values, totalDuration, steps).map(
-		(count, index) => [count, new Date(currentTime - index * stepWidth)] as const
-	);
+	const values = list.map((i) => currentTime - i.getTime()); // all should be pos
+	const result: number[] = groupInSteps(values, totalDuration, steps);
 	return result.reverse();
 }
 
-function groupInSteps(input: number[], max: number, length: number): number[] {
-	const maxVal = input.reduce((a, b) => Math.max(a, b));
+export function groupInSteps(input: number[], maxVal: number, length: number): number[] {
 	const stepWidth = Math.ceil(maxVal / length);
 	const arr: number[] = new Array(length).fill(0);
 	for (const datapoint of input) {

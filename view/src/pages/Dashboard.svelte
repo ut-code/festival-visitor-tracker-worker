@@ -3,7 +3,7 @@
 	import Line from '~/components/charts/Line.svelte';
 	import PieChart from '~/components/charts/PieChart.svelte';
 	import type { Visit } from '~/db/schema';
-	import { groupBy, groupSteps, stairs } from '~/lib/utils';
+	import { groupBy, groupByTime, stairs } from '~/lib/utils';
 	import type { Kind } from '~/share/schema';
 
 	const URL_LABELS = new Map([
@@ -59,7 +59,12 @@
 	const linedata = $derived(
 		grouped.map((e) => ({
 			name: URL_LABELS.get(e.key) ?? e.key,
-			data: groupSteps(lastFetch, start, e.val, SAMPLING_COUNT).map((row) => row[0])
+			data: groupByTime(
+				lastFetch,
+				start,
+				e.val.map((i) => i.at),
+				SAMPLING_COUNT
+			)
 		}))
 	);
 </script>
