@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { Visit } from '~/db/schema';
 	import TotalVisits from '~/components/TotalVisits.svelte';
 	import Line from '~/components/charts/Line.svelte';
+	import PieChart from '~/components/charts/PieChart.svelte';
+	import type { Visit } from '~/db/schema';
 	import { groupBy, groupByHour } from '~/lib/utils';
 	import type { Kind } from '~/share/schema';
 
@@ -23,16 +24,26 @@
 	const { data, duration, lastFetch }: Props = $props();
 	const sanitizedData = $derived(
 		data.map((item) => {
-			const url = new URL(item.url);
-			item.url = url.origin; // sanitize URL s.t. it: - removes trailing URL - deletes HTTP / HTTPS
+			const sanitized = item.url.split('://')[1]?.split('/')[0];
+			if (sanitized) item.url = sanitized;
 			return item;
 		})
 	);
+
 	const grouped = $derived(
 		groupBy(sanitizedData, (item) => {
 			return item.url;
 		})
 	);
+	const piedata = $derived(
+		grouped.map((group) => {
+			return {
+				label: URL_LABELS.get(group.key) ?? group.key,
+				data: group.val.length
+			};
+		})
+	);
+
 	const titles = $derived(groupByHour(lastFetch, grouped[0].val).map((v) => v[1]));
 	const linedata = $derived(
 		grouped.map((e) => ({
@@ -42,6 +53,15 @@
 	);
 </script>
 
-<Line dataset={linedata} {titles} />
+<main class="mt-4">
+	<TotalVisits total={data.length} perDay={data.length / duration} />
+	<PieChart dataset={piedata} />
 
-<TotalVisits total={data.length} perDay={data.length / duration} />
+	<Line dataset={linedata} {titles} />
+</main>
+
+<style>
+	main {
+		min-height: 100%;
+	}
+</style>

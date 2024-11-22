@@ -1,7 +1,7 @@
-import { drizzle } from 'drizzle-orm/d1';
-import { visitsTable } from '~/db/schema';
 import type { ServerLoad } from '@sveltejs/kit';
 import { and, eq, gte } from 'drizzle-orm';
+import { drizzle } from 'drizzle-orm/d1';
+import { visitsTable } from '~/db/schema';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 export const GET: ServerLoad = async ({ params, platform }) => {

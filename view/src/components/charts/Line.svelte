@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Visit } from '~/db/schema';
 
 	type Props = { dataset: { name: string; data: number[] }[]; titles: Date[] };
 	const { dataset, titles }: Props = $props();
@@ -27,11 +26,12 @@
 			}
 		}
 	};
+	const id = Math.random().toFixed(6).toString();
 	onMount(async () => {
 		const { default: ApexCharts } = await import('apexcharts');
-		const chart = new ApexCharts(document.querySelector('#chart'), options);
+		const chart = new ApexCharts(document.querySelector('#chart-line'), options);
 		chart.render();
 	});
 </script>
 
-<div id="chart">hello</div>
+<div id="chart-line"></div>
