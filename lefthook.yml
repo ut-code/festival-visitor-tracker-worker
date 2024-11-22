@@ -13,3 +13,5 @@ pre-commit:
       glob: "**/wrangler.toml"
       run: cd view && bun generate && cd ../worker && bun generate
       stage_fixed: true
+    check:
+      run: bun check
