@@ -25,18 +25,23 @@ export function groupBy<T, U>(list: T[], groupFn: (t: T) => U): { key: U; val: T
 	return ret;
 }
 
-const STEP_WIDTH = 2 * 60 * 60 * 10000;
-export function groupByHour(current: Date, list: Visit[]): [number, Date][] {
+export function groupSteps(
+	current: Date,
+	list: Visit[],
+	start: Date,
+	steps: number
+): [number, Date][] {
 	const currentTime = current.getTime();
+	const totalDuration = currentTime - start.getTime();
+	const stepWidth = totalDuration / steps;
 	const values = list.map((i) => currentTime - i.at.getTime()); // all should be pos
-	const result: [number, Date][] = groupInSteps(values, STEP_WIDTH).map((count, index) => [
-		count,
-		new Date(currentTime - index * STEP_WIDTH)
-	]);
+	const result: [number, Date][] = groupInSteps(values, stepWidth).map(
+		(count, index) => [count, new Date(currentTime - index * stepWidth)] as const
+	);
 	return result;
 }
 
-export function groupInSteps(list: number[], stepWidth: number): number[] {
+function groupInSteps(list: number[], stepWidth: number): number[] {
 	const maxVal = list.reduce((a, b) => Math.max(a, b));
 	const steps = Math.ceil(maxVal / stepWidth);
 	const arr: number[] = new Array(steps + 1).fill(0);

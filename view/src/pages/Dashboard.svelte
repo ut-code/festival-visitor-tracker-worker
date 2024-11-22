@@ -3,7 +3,7 @@
 	import Line from '~/components/charts/Line.svelte';
 	import PieChart from '~/components/charts/PieChart.svelte';
 	import type { Visit } from '~/db/schema';
-	import { groupBy, groupByHour } from '~/lib/utils';
+	import { groupBy, groupSteps } from '~/lib/utils';
 	import type { Kind } from '~/share/schema';
 
 	const URL_LABELS = new Map([
@@ -15,13 +15,17 @@
 		['security.utcode.net', 'セキュリティ']
 	]);
 
+	const SAMPLING_COUNT = 20;
+
 	type Props = {
 		data: Visit[];
 		duration: number;
 		lastFetch: Date;
 		kind: Kind | 'all';
 	};
+	const MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
 	const { data, duration, lastFetch }: Props = $props();
+	const start = $derived(new Date(lastFetch.getTime() - duration * MILLISECS_PER_DAY));
 	const sanitizedData = $derived(
 		data.map((item) => {
 			const sanitized = item.url.split('://')[1]?.split('/')[0];
@@ -46,11 +50,13 @@
 		})
 	);
 
-	const titles = $derived(groupByHour(lastFetch, grouped[0].val).map((v) => v[1]));
+	const titles = $derived(
+		groupSteps(lastFetch, grouped[0].val, start, SAMPLING_COUNT).map((v) => v[1])
+	);
 	const linedata = $derived(
 		grouped.map((e) => ({
 			name: URL_LABELS.get(e.key) ?? e.key,
-			data: groupByHour(lastFetch, e.val).map((row) => row[0])
+			data: groupSteps(lastFetch, e.val, start, SAMPLING_COUNT).map((row) => row[0])
 		}))
 	);
 </script>
