@@ -45,7 +45,7 @@ export function groupSteps(
 	const result: [number, Date][] = groupInSteps(values, totalDuration, steps).map(
 		(count, index) => [count, new Date(currentTime - index * stepWidth)] as const
 	);
-	return result;
+	return result.reverse();
 }
 
 function groupInSteps(input: number[], max: number, length: number): number[] {
