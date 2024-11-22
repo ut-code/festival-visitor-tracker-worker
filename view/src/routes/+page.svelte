@@ -9,7 +9,7 @@
 	let visits = $state(data.visits);
 
 	let kind: Kind | 'all' = $state('all');
-	let duration: number = $state(3 * HOUR);
+	let duration: number = $state(12 * HOUR);
 	let lastFetch: Date = $state(new Date());
 	$effect(() => {
 		visits = fetch(`/visits?kind=${kind}&duration=${duration}`)
@@ -33,7 +33,7 @@
 	<select name="duration" bind:value={duration} class="select select-bordered w-full max-w-sm">
 		<option value={3 * HOUR}>3 hours</option>
 		<option value={6 * HOUR}>6 hours</option>
-		<option value={12 * HOUR}>12 hours</option>
+		<option selected value={12 * HOUR}>12 hours</option>
 		<option value={1 * DAY}>1 days</option>
 		<option value={3 * DAY}>3 days</option>
 		<option value={6 * DAY}>6 days</option>
@@ -44,7 +44,9 @@
 	</select>
 </header>
 {#await visits}
-	Loading...
+	<div class="h-full text-center">
+		<span class="loading loading-bars loading-lg"></span>
+	</div>
 {:then visits}
 	<Dashboard data={visits} {duration} {kind} {lastFetch} />
 {:catch err}
