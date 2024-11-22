@@ -5,6 +5,15 @@
 	import { groupBy, groupByHour } from '~/lib/utils';
 	import type { Kind } from '~/share/schema';
 
+	const URL_LABELS = new Map([
+		['keiba.utcode.net', 'keiba'],
+		['maze.utcode.net', 'maze'],
+		['blosite.utcode.net', 'blosite'],
+		['mahjong.utcode.net', 'mahjong'],
+		['othello.utcode.net', 'othello'],
+		['security.utcode.net', 'security']
+	]);
+
 	type Props = {
 		data: Visit[];
 		duration: number;
@@ -12,7 +21,18 @@
 		kind: Kind | 'all';
 	};
 	const { data, duration, lastFetch }: Props = $props();
-	const grouped = $derived(groupBy(data, (item) => item.url));
+	const sanitizedData = $derived(
+		data.map((item) => {
+			const url = new URL(item.url);
+			item.url = url.origin; // sanitize URL s.t. it: - removes trailing URL - deletes HTTP / HTTPS
+			return item;
+		})
+	);
+	const grouped = $derived(
+		groupBy(sanitizedData, (item) => {
+			return item.url;
+		})
+	);
 	const titles = $derived(groupByHour(lastFetch, grouped[0].val).map((v) => v[1]));
 	const linedata = $derived(
 		grouped.map((e) => ({
@@ -20,15 +40,6 @@
 			data: groupByHour(lastFetch, e.val).map((row) => row[0])
 		}))
 	);
-
-	const URL_LABELS = new Map([
-		['https://keiba.utcode.net/', 'keiba'],
-		['https://maze.utcode.net/', 'maze'],
-		['https://blosite.utcode.net/', 'blosite'],
-		['https://mahjong.utcode.net/', 'mahjong'],
-		['https://othello.utcode.net/', 'othello'],
-		['https://security.utcode.net/', 'security']
-	]);
 </script>
 
 <Line dataset={linedata} {titles} />
