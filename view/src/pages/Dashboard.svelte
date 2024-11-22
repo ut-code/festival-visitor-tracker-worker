@@ -7,12 +7,12 @@
 	import type { Kind } from '~/share/schema';
 
 	const URL_LABELS = new Map([
-		['keiba.utcode.net', 'keiba'],
-		['maze.utcode.net', 'maze'],
-		['blosite.utcode.net', 'blosite'],
-		['mahjong.utcode.net', 'mahjong'],
-		['othello.utcode.net', 'othello'],
-		['security.utcode.net', 'security']
+		['keiba.utcode.net', '競馬 AI'],
+		['maze.utcode.net', 'はじプロ/迷路'],
+		['blosite.utcode.net', 'Blosite'],
+		['mahjong.utcode.net', '一人麻雀'],
+		['othello.utcode.net', 'オセロ'],
+		['security.utcode.net', 'セキュリティ']
 	]);
 
 	type Props = {
