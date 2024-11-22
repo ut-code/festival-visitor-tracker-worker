@@ -25,7 +25,7 @@
 		},
 		tooltip: {
 			x: {
-				format: 'dd/MM/yy HH:mm'
+				format: 'MM/dd HH:mm'
 			}
 		}
 	};
