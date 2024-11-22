@@ -44,7 +44,7 @@
 	</select>
 </header>
 {#await visits}
-	<div class="h-full text-center">
+	<div class="flex h-full items-center justify-center text-center">
 		<span class="loading loading-bars loading-lg"></span>
 	</div>
 {:then visits}
