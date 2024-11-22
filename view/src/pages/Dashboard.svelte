@@ -23,9 +23,8 @@
 		lastFetch: Date;
 		kind: Kind | 'all';
 	};
-	const MILLISECS_PER_DAY = 24 * 60 * 60 * 1000;
 	const { data, duration, lastFetch }: Props = $props();
-	const start = $derived(new Date(lastFetch.getTime() - duration * MILLISECS_PER_DAY));
+	const start = $derived(new Date(lastFetch.getTime() - duration));
 	const sanitizedData = $derived(
 		data.map((item) => {
 			const sanitized = item.url.split('://')[1]?.split('/')[0];
@@ -70,7 +69,7 @@
 </script>
 
 <main class="mt-4">
-	<TotalVisits total={data.length} perDay={data.length / duration} />
+	<TotalVisits total={data.length} {duration} />
 	<PieChart dataset={piedata} />
 
 	<Line dataset={linedata} {titles} />

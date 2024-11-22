@@ -3,10 +3,10 @@ import { and, eq, gte } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import { visitsTable } from '~/db/schema';
 
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
 export const GET: ServerLoad = async ({ params, platform }) => {
-	const duration = Number.parseInt(params.duration ?? '') || 3;
-	const threshold = new Date(new Date().getTime() - duration * MS_PER_DAY);
+	const duration = Number.parseInt(params.duration ?? '');
+	if (!duration) return new Response(`failed to parse ${params.duration} to number`);
+	const threshold = new Date(new Date().getTime() - duration);
 	const kind = params.kind ?? 'all';
 
 	if (!platform) return new Response('platform not found');
