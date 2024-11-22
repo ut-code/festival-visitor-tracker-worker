@@ -15,7 +15,7 @@
 		['security.utcode.net', 'セキュリティ']
 	]);
 
-	const SAMPLING_COUNT = 5;
+	const SAMPLING_COUNT = 20;
 
 	type Props = {
 		data: Visit[];
@@ -59,7 +59,7 @@
 	const linedata = $derived(
 		grouped.map((e) => ({
 			name: URL_LABELS.get(e.key) ?? e.key,
-			data: groupSteps(lastFetch, e.val, start, SAMPLING_COUNT).map((row) => row[0])
+			data: groupSteps(lastFetch, start, e.val, SAMPLING_COUNT).map((row) => row[0])
 		}))
 	);
 </script>
