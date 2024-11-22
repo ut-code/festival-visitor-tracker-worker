@@ -46,5 +46,5 @@
 {:then visits}
 	<Dashboard data={visits} {duration} {kind} {lastFetch} />
 {:catch err}
-	error: {err}
+	error: {err.message}
 {/await}
