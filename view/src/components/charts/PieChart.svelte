@@ -4,9 +4,8 @@
 		dataset: { data: number; label: string }[];
 	};
 	const { dataset }: Props = $props();
-	const sorted = $derived(dataset.toSorted((a, b) => b.data - a.data));
-	const series = $derived(sorted.map((entry) => entry.data));
-	const labels = $derived(sorted.map((entry) => entry.label));
+	const series = $derived(dataset.map((entry) => entry.data));
+	const labels = $derived(dataset.map((entry) => entry.label));
 	const options = $derived({
 		chart: {
 			height: 300,

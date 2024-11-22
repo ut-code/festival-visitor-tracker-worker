@@ -33,6 +33,8 @@
 	const grouped = $derived(
 		groupBy(sanitizedData, (item) => {
 			return item.url;
+		}).sort((a, b) => {
+			return b.val.length - a.val.length;
 		})
 	);
 	const piedata = $derived(
