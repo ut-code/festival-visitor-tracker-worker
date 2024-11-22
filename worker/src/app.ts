@@ -6,6 +6,7 @@ const Body = v.object({
   url: v.pipe(v.string(), v.url()),
   // 結局公開するので意味ないが、間違って送信するのを防ぐ意味もあり一応。
   key: v.string(),
+  kind: v.union([v.literal("festival")]),
 });
 
 const resForHuman = `
@@ -36,6 +37,7 @@ async function main(req: Request, env: Env) {
   const db = drizzle(env.DB);
   await db.insert(visitsTable).values({
     url: body.url,
+    kind: body.kind,
     at: new Date(),
   });
   return new Response("ok");

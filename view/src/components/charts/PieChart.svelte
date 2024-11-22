@@ -1,47 +1,31 @@
 <script lang="ts">
-	import type { Visit } from '~/share/schema';
+	import { onMount } from 'svelte';
 	type Props = {
-		values: Map<string, Visit[]>;
+		dataset: { data: number; label: string }[];
 	};
-	const { values }: Props = $props();
-	const data = $derived(lengths(values));
-
-	function lengths(src: Map<string, unknown[]>): Map<string, number> {
-		const dst = new Map<string, number>();
-		for (const [key, _] of src) {
-			const entry = dst.get(key);
-			if (!entry) dst.set(key, 1);
-			else dst.set(key, entry + 1);
+	const { dataset }: Props = $props();
+	const sorted = $derived(dataset.toSorted((a, b) => b.data - a.data));
+	const series = $derived(sorted.map((entry) => entry.data));
+	const labels = $derived(sorted.map((entry) => entry.label));
+	const options = $derived({
+		chart: {
+			height: 300,
+			type: 'donut'
+		},
+		series,
+		labels,
+		dataLabels: {
+			enabled: true,
+			formatter: (pc: number) => `${Math.floor(pc)}%`,
+			dropShadow: {}
 		}
-		return dst;
-	}
-	import { Chart, Tooltip, type ChartData, type ChartOptions } from 'chart.js';
-	import 'chart.js/auto';
-
-	let chartData: ChartData<'line', number[], string>;
-	let options: ChartOptions<'line'>;
-
-	Chart.register(Tooltip);
-
-	let canvasElem: HTMLCanvasElement;
-	let chart: Chart;
-
-	$effect(() => {
-		chart = new Chart(canvasElem, {
-			type: 'line',
-			data: chartData,
-			options
-		});
-
-		return () => {
-			chart.destroy();
-		};
 	});
-
-	$effect(() => {
-		if (chart) {
-			chart.data = chartData;
-			chart.update();
-		}
+	onMount(async () => {
+		const { default: ApexCharts } = await import('apexcharts');
+		const chart = new ApexCharts(document.querySelector('#chart-pie'), options);
+		await chart.render();
+		console.log('rendered');
 	});
 </script>
+
+<span class="inline-block" id="chart-pie"></span>

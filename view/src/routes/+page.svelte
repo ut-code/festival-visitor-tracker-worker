@@ -1,8 +1,8 @@
 <script lang="ts">
 	import * as v from 'valibot';
 	import Dashboard from '~/pages/Dashboard.svelte';
+	import { type Kind, visit } from '~/share/schema';
 	import type { PageData } from './$types';
-	import { visit, type Kind } from '~/share/schema';
 	type Props = { data: PageData };
 	const { data }: Props = $props();
 	let visits = $state(data.visits);

@@ -1,3 +1,4 @@
+import { count } from 'drizzle-orm';
 import type { Visit } from '~/db/schema';
 
 export function unwrap<T>(val: T | null | undefined): T {
@@ -24,17 +25,27 @@ export function groupBy<T, U>(list: T[], groupFn: (t: T) => U): { key: U; val: T
 	return ret;
 }
 
-const MILLIS_IN_HOUR = 60 * 60 * 1000;
-export function groupByHour(start: Date, list: Visit[]): number[] {
-	const startTime = start.getTime();
-	const values = list.map((i) => i.at.getTime() - startTime).sort((a, b) => a - b);
-	const length = Math.ceil((start.getTime() - (values.at(-1) ?? start.getTime())) / MILLIS_IN_HOUR);
-	const ret: number[] = new Array(length).fill(0);
-	for (const datapoint of values) {
-		const idx = Math.floor(datapoint / MILLIS_IN_HOUR);
-		const arr = ret[idx];
-		if (!arr) console.warn('groupByHour: something is wrong');
-		else ret[idx]++;
+const STEP_WIDTH = 2 * 60 * 60 * 10000;
+export function groupByHour(current: Date, list: Visit[]): [number, Date][] {
+	const currentTime = current.getTime();
+	const values = list.map((i) => currentTime - i.at.getTime()); // all should be pos
+	const result: [number, Date][] = groupInSteps(values, STEP_WIDTH).map((count, index) => [
+		count,
+		new Date(currentTime - index * STEP_WIDTH)
+	]);
+	return result;
+}
+
+export function groupInSteps(list: number[], stepWidth: number): number[] {
+	const maxVal = list.reduce((a, b) => Math.max(a, b));
+	const steps = Math.ceil(maxVal / stepWidth);
+	const arr: number[] = new Array(steps + 1).fill(0);
+	for (const datapoint of list) {
+		const idx = Math.floor(datapoint / stepWidth);
+		const val = arr[idx];
+		if (val === undefined)
+			console.warn('groupByHour: something is wrong', { idx, len: arr.length });
+		else arr[idx]++;
 	}
-	return ret;
+	return arr;
 }

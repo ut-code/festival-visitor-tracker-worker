@@ -1,38 +1,37 @@
 <script lang="ts">
-	import { Chart, Tooltip, type ChartData, type ChartOptions } from 'chart.js';
-	import type { HTMLCanvasAttributes } from 'svelte/elements';
-	import 'chart.js/auto';
+	import { onMount } from 'svelte';
 
-	type Props = HTMLCanvasAttributes & {
-		data: ChartData<'line', number[], string>;
-		options: ChartOptions<'line'>;
-	};
-
-	Chart.register(Tooltip);
-
-	const { data, options, ...rest }: Props = $props();
-
-	let canvasElem: HTMLCanvasElement;
-	let chart: Chart;
-
-	$effect(() => {
-		chart = new Chart(canvasElem, {
-			type: 'line',
-			data,
-			options
-		});
-
-		return () => {
-			chart.destroy();
-		};
-	});
-
-	$effect(() => {
-		if (chart) {
-			chart.data = data;
-			chart.update();
+	type Props = { dataset: { name: string; data: number[] }[]; titles: Date[] };
+	const { dataset, titles }: Props = $props();
+	$inspect(titles);
+	const options = {
+		series: dataset,
+		chart: {
+			height: 350,
+			type: 'area'
+		},
+		dataLabels: {
+			enabled: false
+		},
+		stroke: {
+			curve: 'smooth'
+		},
+		xaxis: {
+			type: 'datetime',
+			categories: titles.map((title) => title.toISOString())
+		},
+		tooltip: {
+			x: {
+				format: 'dd/MM/yy HH:mm'
+			}
 		}
+	};
+	const id = Math.random().toFixed(6).toString();
+	onMount(async () => {
+		const { default: ApexCharts } = await import('apexcharts');
+		const chart = new ApexCharts(document.querySelector('#chart-line'), options);
+		chart.render();
 	});
 </script>
 
-<canvas bind:this={canvasElem} {...rest}></canvas>
+<div id="chart-line"></div>
