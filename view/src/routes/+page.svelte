@@ -17,7 +17,7 @@
 				const parsed = v.safeParse(v.array(visit), val);
 				if (!parsed.success) {
 					console.error(val, parsed.issues);
-					throw new Error();
+					throw new Error(parsed.issues.toString());
 				}
 				return parsed.output;
 			})
