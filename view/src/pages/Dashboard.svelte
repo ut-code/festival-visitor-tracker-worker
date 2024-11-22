@@ -55,7 +55,7 @@
 			(v) => new Date(v + start.getTime())
 		)
 	);
-	console.log(title);
+	$inspect(titles);
 	const linedata = $derived(
 		grouped.map((e) => ({
 			name: URL_LABELS.get(e.key) ?? e.key,
