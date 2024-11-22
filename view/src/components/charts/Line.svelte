@@ -18,7 +18,7 @@
 		},
 		xaxis: {
 			type: 'datetime',
-			categories: titles.map((title) => title.toISOString())
+			categories: titles.map((title) => title.toLocaleDateString())
 		},
 		tooltip: {
 			x: {
