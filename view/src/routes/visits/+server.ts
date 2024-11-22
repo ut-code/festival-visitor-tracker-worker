@@ -1,5 +1,5 @@
 import type { ServerLoad } from '@sveltejs/kit';
-import { and, eq, gte } from 'drizzle-orm';
+import { and, eq, lte } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/d1';
 import { visitsTable } from '~/db/schema';
 
@@ -17,7 +17,7 @@ export const GET: ServerLoad = async ({ params, platform }) => {
 		.where(
 			and(
 				eq(visitsTable.kind, kind !== 'all' ? kind : visitsTable.kind),
-				gte(visitsTable.at, threshold)
+				lte(visitsTable.at, threshold)
 			)
 		)
 		.all();
