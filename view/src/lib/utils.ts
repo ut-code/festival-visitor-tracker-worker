@@ -41,6 +41,13 @@ export function groupSteps(
 	return result;
 }
 
+export function stairs(len: number, top: number): number[] {
+	const ret: number[] = [];
+	for (let i = 0; i < len; i++) {
+		ret.push((top / len) * i);
+	}
+	return ret;
+}
 function groupInSteps(list: number[], stepWidth: number): number[] {
 	const maxVal = list.reduce((a, b) => Math.max(a, b));
 	const steps = Math.ceil(maxVal / stepWidth);
