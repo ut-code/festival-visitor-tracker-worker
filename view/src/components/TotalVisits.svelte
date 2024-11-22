@@ -12,7 +12,7 @@
 		<span class="text-xl">{total}</span>
 		<hr />
 		<span class="text-xl">
-			{perHour} / Hour, {perDay} / Day
+			{perHour.toFixed(1)} / Hour, {perDay.toFixed(1)} / Day
 		</span>
 	</div>
 </div>
