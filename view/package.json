@@ -6,13 +6,13 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"generate": "bun run cf-typegen && svelte-kit sync",
-		"preview": "bun run build && wrangler pages dev",
+		"preview": "bun run build && bunx wrangler pages dev",
 		"check": "bun generate && svelte-check --tsconfig ./tsconfig.json",
 		"db:push": "drizzle-kit push",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
 		"deploy": "bun run build && wrangler pages deploy",
-		"cf-typegen": "wrangler types && mv worker-configuration.d.ts src/"
+		"cf-typegen": "bunx wrangler types && mv worker-configuration.d.ts src/"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20241112.0",
