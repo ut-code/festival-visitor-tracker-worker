@@ -3,14 +3,13 @@
 	import * as v from 'valibot';
 	import Dashboard from '~/pages/Dashboard.svelte';
 	import { type Kind, visit } from '~/share/schema';
-	import type { PageData } from './$types';
-	type Props = { data: PageData };
-	const { data }: Props = $props();
-	let visits = $state(data.visits);
+	import type { Visit } from '~/db/schema';
+	let visits: Promise<Visit[]> = $state(new Promise(() => {}));
 
 	let kind: Kind | 'all' = $state('all');
 	let duration: number = $state(12 * HOUR);
 	let lastFetch: Date = $state(new Date());
+
 	$effect(() => {
 		visits = fetch(`/visits?kind=${kind}&duration=${duration}`)
 			.then((res) => res.json())
