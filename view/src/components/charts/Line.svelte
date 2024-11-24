@@ -23,7 +23,7 @@
 			type: 'datetime',
 			// it's written in UTC time for some reason. converting to JST.
 			categories: titles.map((title) =>
-				new Date(title.getTime() + 9 * 60 * 60 * 1000).toISOString()
+				new Date(title?.getTime() + 9 * 60 * 60 * 1000).toISOString()
 			)
 		},
 		tooltip: {

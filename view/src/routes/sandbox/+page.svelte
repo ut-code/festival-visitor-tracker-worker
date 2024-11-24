@@ -3,7 +3,7 @@
 	import { data } from './data';
 	import { DAY } from '~/lib/consts';
 	const last = new Date();
-	const start = new Date(last.getTime() - 3 * DAY);
+	const start = new Date(last?.getTime() - 3 * DAY);
 </script>
 
 <Dashboard {data} {last} {start} kind="festival" />

@@ -14,8 +14,8 @@
 		const filtered = visits.filter(
 			(visit) =>
 				(kind === 'all' || visit.kind === kind) &&
-				visit.at.getTime() > startTime &&
-				visit.at.getTime() < lastTime
+				visit.at?.getTime() > startTime &&
+				visit.at?.getTime() < lastTime
 		);
 		data = new Promise((resolve) => {
 			setTimeout(() => {
