@@ -9,8 +9,8 @@
 
 	$effect(() => {
 		console.log('start:', start, 'last:', last);
-		const startTime = start.getTime();
-		const lastTime = last.getTime();
+		const startTime = start?.getTime();
+		const lastTime = last?.getTime();
 		const filtered = visits.filter(
 			(visit) =>
 				(kind === 'all' || visit.kind === kind) &&
