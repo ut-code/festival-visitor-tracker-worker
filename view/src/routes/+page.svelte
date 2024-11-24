@@ -1,31 +1,26 @@
 <script lang="ts">
+	import Loaded from './loaded.svelte';
 	import { HOUR, DAY } from '~/lib/consts';
 	import * as v from 'valibot';
-	import Dashboard from '~/pages/Dashboard.svelte';
 	import { type Kind, visit } from '~/share/schema';
-	import type { Visit } from '~/db/schema';
-	let visits: Promise<Visit[]> = $state(new Promise(() => {}));
+	const visits = fetch('/visits', { headers: { 'Api-Version': '2' } })
+		.then((res) => res.json())
+		.then((val) => {
+			const parsed = v.safeParse(v.array(visit), val);
+			if (!parsed.success) {
+				console.error(val, parsed.issues);
+				throw new Error(parsed.issues.toString());
+			}
+			return parsed.output;
+		})
+		.then((val) => {
+			lastFetch = new Date();
+			return val;
+		});
 
 	let kind: Kind | 'all' = $state('all');
 	let duration: number = $state(12 * HOUR);
 	let lastFetch: Date = $state(new Date());
-
-	$effect(() => {
-		visits = fetch(`/visits?kind=${kind}&duration=${duration}`)
-			.then((res) => res.json())
-			.then((val) => {
-				const parsed = v.safeParse(v.array(visit), val);
-				if (!parsed.success) {
-					console.error(val, parsed.issues);
-					throw new Error(parsed.issues.toString());
-				}
-				return parsed.output;
-			})
-			.then((val) => {
-				lastFetch = new Date();
-				return val;
-			});
-	});
 </script>
 
 <header>
@@ -47,7 +42,7 @@
 		<span class="loading loading-bars loading-lg"></span>
 	</div>
 {:then visits}
-	<Dashboard data={visits} {duration} {kind} {lastFetch} />
+	<Loaded {visits} {duration} {lastFetch} {kind} />
 {:catch err}
 	error: {err.message}
 {/await}
