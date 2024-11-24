@@ -12,20 +12,18 @@
 	let last: Date = $state(lastFetch);
 
 	$effect(() => {
-		start;
-		last;
+		const startTime = start.getTime();
+		const lastTime = last.getTime();
+		const filtered = visits.filter(
+			(visit) =>
+				(kind === 'all' || visit.kind === kind) &&
+				visit.at.getTime() > startTime &&
+				visit.at.getTime() < lastTime
+		);
 		data = new Promise((resolve) => {
-			const startTime = start.getTime();
-			const lastTime = last.getTime();
-			const filtered = visits.filter(
-				(visit) =>
-					(kind === 'all' || visit.kind === kind) &&
-					visit.at.getTime() > startTime &&
-					visit.at.getTime() < lastTime
-			);
 			setTimeout(() => {
 				resolve(filtered);
-			}, 10);
+			}, 1500);
 		});
 	});
 </script>

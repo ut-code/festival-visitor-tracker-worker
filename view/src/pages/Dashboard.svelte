@@ -32,8 +32,11 @@
 	const sanitizedData = $derived(
 		data.map((item) => {
 			const sanitized = item.url.split('://')[1]?.split('/')[0];
-			if (sanitized) item.url = sanitized;
-			return item;
+			if (!sanitized) return item;
+			return {
+				...item,
+				url: sanitized
+			};
 		})
 	);
 
