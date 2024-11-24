@@ -17,13 +17,16 @@
 	let kind: Kind | 'all' = $state('all');
 	const now = new Date();
 	const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
-	let last: Date = $state(today);
-	let start: Date = $state(new Date(today?.getTime() - 1 * DAY));
+	const yesterday = new Date(today?.getTime() - 1 * DAY);
+	let lastStr: string = $state(today.toJSON().slice(0, 10));
+	let startStr: string = $state(yesterday.toJSON().slice(0, 10));
+	let last: Date = $derived(new Date(lastStr));
+	let start: Date = $derived(new Date(startStr));
 </script>
 
 <header>
-	Since: <input class="" type="date" bind:value={start} />
-	To: <input class="" type="date" bind:value={last} />
+	Since: <input class="" type="date" bind:value={startStr} />
+	To: <input class="" type="date" bind:value={startStr} />
 	<select name="kind" bind:value={kind} class="select select-bordered w-full max-w-sm">
 		<option value="all">All</option>
 		<option value="festival">Festival</option>
