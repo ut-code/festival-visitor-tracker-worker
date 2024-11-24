@@ -58,7 +58,7 @@
 	);
 
 	const titles = $derived(
-		stairs(SAMPLING_COUNT, SAMPLING_RATE).map((v) => new Date(v + start.getTime()))
+		stairs(SAMPLING_COUNT, SAMPLING_RATE).map((v) => new Date(v + start?.getTime()))
 	);
 	const linedata = $derived(
 		grouped.map((e) => ({
