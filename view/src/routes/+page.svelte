@@ -8,8 +8,8 @@
 		.then((val) => {
 			const parsed = v.safeParse(v.array(visit), val);
 			if (!parsed.success) {
-				console.error(val, parsed.issues);
-				throw new Error(parsed.issues.toString());
+				console.error('error:', parsed.issues, 'got:', val);
+				throw new Error('parse error -- see console for actual error');
 			}
 			return parsed.output;
 		})
