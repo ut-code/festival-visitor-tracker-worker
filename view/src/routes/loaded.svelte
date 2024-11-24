@@ -2,12 +2,13 @@
 	import type { Visit } from '~/db/schema';
 	import Dashboard from '~/pages/Dashboard.svelte';
 	import type { Kind } from '~/share/schema';
-	type Props = { duration: number; last: Date; start: Date; visits: Visit[]; kind: Kind | 'all' };
-	const { duration, start, last, visits, kind }: Props = $props();
+	type Props = { last: Date; start: Date; visits: Visit[]; kind: Kind | 'all' };
+	const { start, last, visits, kind }: Props = $props();
 
 	let data: Promise<Visit[]> = $state(new Promise((resolve) => resolve(visits)));
 
 	$effect(() => {
+		console.log('start:', start, 'last:', last);
 		const startTime = start.getTime();
 		const lastTime = last.getTime();
 		const filtered = visits.filter(

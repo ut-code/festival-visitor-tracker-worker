@@ -15,13 +15,10 @@
 		});
 
 	let kind: Kind | 'all' = $state('all');
-	let duration: number = $state(12 * HOUR);
 	const now = new Date();
 	const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
 	let last: Date = $state(today);
-	console.log(last);
 	let start: Date = $state(new Date(today.getTime() - 1 * DAY));
-	console.log(start);
 </script>
 
 <header>
@@ -37,7 +34,7 @@
 		<span class="loading loading-bars loading-lg"></span>
 	</div>
 {:then visits}
-	<Loaded {visits} {duration} {last} {start} {kind} />
+	<Loaded {visits} {last} {start} {kind} />
 {:catch err}
 	error: {err.message}
 {/await}
