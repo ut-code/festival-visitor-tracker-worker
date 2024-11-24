@@ -23,7 +23,7 @@
 		data = new Promise((resolve) => {
 			setTimeout(() => {
 				resolve(filtered);
-			}, 1500);
+			}, 10);
 		});
 	});
 </script>
