@@ -12,6 +12,8 @@
 	let last: Date = $state(lastFetch);
 
 	$effect(() => {
+		start;
+		last;
 		data = new Promise((resolve) => {
 			const startTime = start.getTime();
 			const lastTime = last.getTime();
@@ -23,7 +25,7 @@
 			);
 			setTimeout(() => {
 				resolve(filtered);
-			}, 100);
+			}, 10);
 		});
 	});
 </script>
