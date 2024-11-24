@@ -48,7 +48,7 @@ export function groupInSteps(input: number[], maxVal: number, length: number): n
 		const idx = Math.floor(datapoint / stepWidth);
 		const val = arr[idx];
 		if (val === undefined)
-			console.warn('groupByHour: something is wrong', { idx, len: arr.length });
+			console.warn('groupInSteps: something is wrong', { idx, len: arr.length });
 		else arr[idx]++;
 	}
 	return arr;
