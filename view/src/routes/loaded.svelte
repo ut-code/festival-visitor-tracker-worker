@@ -8,7 +8,7 @@
 	let data: Promise<Visit[]> = $state(new Promise((resolve) => resolve(visits)));
 
 	// todo: fix these
-	let start: Date = $state(new Date(lastFetch.getTime() - duration));
+	let start: Date = $derived(new Date(lastFetch.getTime() - duration));
 	let last: Date = $state(lastFetch);
 
 	$effect(() => {
