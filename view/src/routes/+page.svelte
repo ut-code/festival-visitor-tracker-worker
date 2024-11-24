@@ -8,30 +8,23 @@
 		.then((val) => {
 			const parsed = v.safeParse(v.array(visit), val);
 			if (!parsed.success) {
-				console.error('error:', parsed.issues, 'got:', val);
-				throw new Error('parse error -- see console for actual error');
+				console.error(val, parsed.issues);
+				throw new Error(parsed.issues.toString());
 			}
 			return parsed.output;
-		})
-		.then((val) => {
-			lastFetch = new Date();
-			return val;
 		});
 
 	let kind: Kind | 'all' = $state('all');
 	let duration: number = $state(12 * HOUR);
-	let lastFetch: Date = $state(new Date());
+	const now = new Date();
+	const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+	let last: Date = $state(today);
+	let start: Date = $state(new Date(today.getTime() - 1 * DAY));
 </script>
 
 <header>
-	<select name="duration" bind:value={duration} class="select select-bordered w-full max-w-sm">
-		<option value={3 * HOUR}>3 hours</option>
-		<option value={6 * HOUR}>6 hours</option>
-		<option selected value={12 * HOUR}>12 hours</option>
-		<option value={1 * DAY}>1 day</option>
-		<option value={3 * DAY}>3 days</option>
-		<option value={6 * DAY}>6 days</option>
-	</select>
+	Since: <input class="" type="date" bind:value={start} />
+	To: <input class="" type="date" bind:value={last} />
 	<select name="kind" bind:value={kind} class="select select-bordered w-full max-w-sm">
 		<option value="all">All</option>
 		<option value="festival">Festival</option>
@@ -42,7 +35,7 @@
 		<span class="loading loading-bars loading-lg"></span>
 	</div>
 {:then visits}
-	<Loaded {visits} {duration} {lastFetch} {kind} />
+	<Loaded {visits} {duration} {last} {start} {kind} />
 {:catch err}
 	error: {err.message}
 {/await}

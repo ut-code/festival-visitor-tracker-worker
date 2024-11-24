@@ -3,7 +3,7 @@
 	import Line from '~/components/charts/Line.svelte';
 	import PieChart from '~/components/charts/PieChart.svelte';
 	import type { Visit } from '~/db/schema';
-	import { HOUR } from '~/lib/consts';
+	import { HOUR, MINUTE } from '~/lib/consts';
 	import { groupBy, groupByTime, stairs } from '~/lib/utils';
 	import type { Kind } from '~/share/schema';
 
@@ -18,17 +18,18 @@
 
 	type Props = {
 		data: Visit[];
-		duration: number;
-		lastFetch: Date;
+		last: Date;
+		start: Date;
 		kind: Kind | 'all';
 	};
-	const { data, duration, lastFetch }: Props = $props();
+	const { data, last, start }: Props = $props();
 	function clamp(target: number, min: number, max: number) {
 		return Math.min(Math.max(target, min), max);
 	}
+	const duration = $derived(last.getTime() - start.getTime());
 
-	const SAMPLING_COUNT = $derived(clamp(duration / HOUR, 6, 20)); // limit sampling count to 20 if it's too big
-	const start = $derived(new Date(lastFetch.getTime() - duration));
+	const SAMPLING_RATE = 30 * MINUTE;
+	const SAMPLING_COUNT = $derived(clamp(duration / SAMPLING_RATE, 24, 120));
 	const sanitizedData = $derived(
 		data.map((item) => {
 			const sanitized = item.url.split('://')[1]?.split('/')[0];
@@ -57,15 +58,13 @@
 	);
 
 	const titles = $derived(
-		stairs(SAMPLING_COUNT, lastFetch.getTime() - start.getTime()).map(
-			(v) => new Date(v + start.getTime())
-		)
+		stairs(SAMPLING_COUNT, SAMPLING_RATE).map((v) => new Date(v + start.getTime()))
 	);
 	const linedata = $derived(
 		grouped.map((e) => ({
 			name: URL_LABELS.get(e.key) ?? e.key,
 			data: groupByTime(
-				lastFetch,
+				last,
 				start,
 				e.val.map((i) => i.at),
 				SAMPLING_COUNT

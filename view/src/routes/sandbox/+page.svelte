@@ -2,7 +2,8 @@
 	import Dashboard from '~/pages/Dashboard.svelte';
 	import { data } from './data';
 	import { DAY } from '~/lib/consts';
-	const duration = 3 * DAY;
+	const last = new Date();
+	const start = new Date(last.getTime() - 3 * DAY);
 </script>
 
-<Dashboard {data} lastFetch={new Date()} {duration} kind="festival" />
+<Dashboard {data} {last} {start} kind="festival" />

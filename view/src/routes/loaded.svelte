@@ -2,14 +2,10 @@
 	import type { Visit } from '~/db/schema';
 	import Dashboard from '~/pages/Dashboard.svelte';
 	import type { Kind } from '~/share/schema';
-	type Props = { duration: number; lastFetch: Date; visits: Visit[]; kind: Kind | 'all' };
-	const { duration, lastFetch, visits, kind }: Props = $props();
+	type Props = { duration: number; last: Date; start: Date; visits: Visit[]; kind: Kind | 'all' };
+	const { duration, start, last, visits, kind }: Props = $props();
 
 	let data: Promise<Visit[]> = $state(new Promise((resolve) => resolve(visits)));
-
-	// todo: fix these
-	let start: Date = $derived(new Date(lastFetch.getTime() - duration));
-	let last: Date = $state(lastFetch);
 
 	$effect(() => {
 		const startTime = start.getTime();
@@ -33,5 +29,5 @@
 		<span class="loading loading-bars loading-lg"></span>
 	</div>
 {:then visits}
-	<Dashboard data={visits} {duration} {kind} {lastFetch} />
+	<Dashboard data={visits} {start} {kind} {last} />
 {/await}
