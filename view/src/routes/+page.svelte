@@ -4,7 +4,11 @@
 	import * as v from 'valibot';
 	import { type Kind, visit } from '~/share/schema';
 	const visits = fetch('/visits', { headers: { 'Api-Version': '2' } })
-		.then((res) => res.json())
+		.then(async (res) => {
+			const text = await res.text();
+			console.log(text);
+			return JSON.parse(text);
+		})
 		.then((val) => {
 			const parsed = v.safeParse(v.array(visit), val);
 			if (!parsed.success) {
