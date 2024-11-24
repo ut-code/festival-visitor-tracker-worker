@@ -26,7 +26,7 @@
 	function clamp(target: number, min: number, max: number) {
 		return Math.min(Math.max(target, min), max);
 	}
-	const duration = $derived(last.getTime() - start.getTime());
+	const duration = $derived(last?.getTime() - start?.getTime());
 
 	const SAMPLING_RATE = 30 * MINUTE;
 	const SAMPLING_COUNT = $derived(clamp(duration / SAMPLING_RATE, 24, 120));
