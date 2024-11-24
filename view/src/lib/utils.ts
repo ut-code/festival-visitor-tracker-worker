@@ -33,10 +33,10 @@ export function groupBy<T, U>(list: T[], groupFn: (t: T) => U): { key: U; val: T
 }
 
 export function groupByTime(current: Date, start: Date, list: Date[], steps: number): number[] {
-	const currentTime = current.getTime();
-	const totalDuration = currentTime - start.getTime();
+	const currentTime = current?.getTime();
+	const totalDuration = currentTime - start?.getTime();
 	const stepWidth = totalDuration / steps;
-	const values = list.map((i) => currentTime - i.getTime()); // all should be pos
+	const values = list.map((i) => currentTime - i?.getTime()); // all should be pos
 	const result: number[] = groupInSteps(values, totalDuration, steps);
 	return result.reverse();
 }
