@@ -35,7 +35,7 @@ export const GET: ServerLoad = async ({ request, url, platform }) => {
 		case '2': {
 			const FETCH_VISIT_THRESHOLD = new Date(new Date().getTime() - 12 * DAY);
 			const db = drizzle(platform.env.DB);
-			const result = db
+			const result = await db
 				.select()
 				.from(visitsTable)
 				.where(gte(visitsTable.at, FETCH_VISIT_THRESHOLD))
