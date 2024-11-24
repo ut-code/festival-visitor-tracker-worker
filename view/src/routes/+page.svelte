@@ -26,7 +26,7 @@
 
 <header>
 	Since: <input class="" type="date" bind:value={startStr} />
-	To: <input class="" type="date" bind:value={startStr} />
+	To: <input class="" type="date" bind:value={lastStr} />
 	<select name="kind" bind:value={kind} class="select select-bordered w-full max-w-sm">
 		<option value="all">All</option>
 		<option value="festival">Festival</option>
